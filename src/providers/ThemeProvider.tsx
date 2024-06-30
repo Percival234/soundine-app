@@ -1,17 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 
 type ThemeProviderProps = {
   children: React.ReactNode;
 };
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [theme] = useState(
-    localStorage.theme ||
-      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-  );
+  const theme = useLocalStorage('theme');
 
   useEffect(() => {
-    document.documentElement.className = theme;
+    document.documentElement.className = theme || 'light';
     localStorage.theme = theme;
   }, [theme]);
   return <>{children}</>;
