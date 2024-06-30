@@ -7,11 +7,12 @@ type ThemeProviderProps = {
 };
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const theme = useLocalStorage('theme');
+  const theme = useLocalStorage('theme') || 'light';
 
   useEffect(() => {
-    document.documentElement.className = theme || 'light';
     localStorage.theme = theme;
+    document.documentElement.className = theme;
   }, [theme]);
+
   return <>{children}</>;
 };
